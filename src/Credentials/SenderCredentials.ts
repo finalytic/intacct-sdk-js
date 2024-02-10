@@ -19,7 +19,6 @@
 
 import ClientConfig from "../ClientConfig";
 import Endpoint from "./Endpoint";
-import ProfileCredentialProvider from "./ProfileCredentialProvider";
 
 export default class SenderCredentials {
 
@@ -51,25 +50,7 @@ export default class SenderCredentials {
         if (config.senderPassword == null) {
             config.senderPassword = process.env[SenderCredentials.SENDER_PASSWORD_ENV_NAME];
         }
-        if (
-            config.senderId == null
-            && config.senderPassword == null
-            && config.profileName != null
-        ) {
-            const profile = ProfileCredentialProvider.getSenderCredentials(config);
-
-            if (profile.senderId != null) {
-                config.senderId = profile.senderId;
-            }
-            if (profile.senderPassword != null) {
-                config.senderPassword = profile.senderPassword;
-            }
-            if (config.endpointUrl == null) {
-                // Only set the endpoint URL if it was never passed in to begin with
-                config.endpointUrl = profile.endpointUrl;
-            }
-        }
-
+        
         if (config.senderId == null) {
             throw new Error('Required Sender ID not supplied in config or env variable "' +
                 SenderCredentials.SENDER_ID_ENV_NAME + '"');

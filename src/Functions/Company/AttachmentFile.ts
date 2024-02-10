@@ -17,8 +17,6 @@
  * permissions and limitations under the License.
  */
 
-import * as fs from "fs";
-import * as path from "path";
 import IaXmlWriter from "../../Xml/IaXmlWriter";
 import IXmlObject from "../../Xml/IXmlObject";
 
@@ -32,17 +30,7 @@ export default class AttachmentFile implements IXmlObject {
         return this._filePath;
     }
     set filePath(filePath: string) {
-        let ext = path.extname(filePath);
-        if (this.fileName == null) {
-            this.fileName = path.basename(filePath, ext);
-        }
-        if (this.extension == null) {
-            if (ext.startsWith(".")) {
-                ext = ext.substring(1);
-            }
-            this.extension = ext;
-        }
-        this._filePath = filePath;
+        throw new Error("Cant work with files on edge environment");
     }
 
     public writeXml(xml: IaXmlWriter): void {
@@ -55,9 +43,10 @@ export default class AttachmentFile implements IXmlObject {
         // The file extension without a period - Ex: pdf
         xml.writeElement("attachmenttype", this.extension, true);
 
-        const reader = fs.readFileSync(this.filePath);
-        xml.writeElement("attachmentdata", reader.toString("base64"), true);
+        //const reader = fs.readFileSync(this.filePath);
+        //xml.writeElement("attachmentdata", reader.toString("base64"), true);
 
         xml.writeEndElement(); // attachment
+        throw new Error("Cant work with files on edge environment");
     }
 }

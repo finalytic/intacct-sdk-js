@@ -16,8 +16,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-import * as dateFormat from "dateformat";
-import * as os from "os";
+
+const os = {
+    EOL: "\n",
+}
 
 export default class MessageFormatter {
 

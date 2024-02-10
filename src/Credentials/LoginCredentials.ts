@@ -20,7 +20,6 @@
 import ClientConfig from "../ClientConfig";
 import Endpoint from "./Endpoint";
 import ICredentials from "./ICredentials";
-import ProfileCredentialProvider from "./ProfileCredentialProvider";
 import SenderCredentials from "./SenderCredentials";
 
 export default class LoginCredentials implements ICredentials {
@@ -70,27 +69,6 @@ export default class LoginCredentials implements ICredentials {
         }
         if (config.userPassword == null) {
             config.userPassword = process.env[LoginCredentials.USER_PASSWORD_ENV_NAME];
-        }
-        if (
-            config.companyId == null
-            && config.userId == null
-            && config.userPassword == null
-            && config.profileName != null
-        ) {
-            const profile = ProfileCredentialProvider.getLoginCredentials(config);
-
-            if (profile.companyId != null) {
-                config.companyId = profile.companyId;
-            }
-            if (profile.entityId != null) {
-                config.entityId = profile.entityId;
-            }
-            if (profile.userId != null) {
-                config.userId = profile.userId;
-            }
-            if (profile.userPassword != null) {
-                config.userPassword = profile.userPassword;
-            }
         }
 
         if (config.companyId == null) {

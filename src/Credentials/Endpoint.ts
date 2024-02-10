@@ -17,7 +17,6 @@
  * permissions and limitations under the License.
  */
 
-import * as url from "url";
 import ClientConfig from "../ClientConfig";
 
 export default class Endpoint {
@@ -46,7 +45,7 @@ export default class Endpoint {
             address = Endpoint.DEFAULT_ENDPOINT;
         }
 
-        const parsedUrl = url.parse(address);
+        const parsedUrl = new URL(address);
         if (!Endpoint.isDomainValid(parsedUrl.hostname)) {
             throw new Error("Endpoint URL is not a valid " + Endpoint.DOMAIN_NAME + " domain name.");
         }
