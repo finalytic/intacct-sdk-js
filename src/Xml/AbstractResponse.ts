@@ -17,11 +17,13 @@
  * permissions and limitations under the License.
  */
 
-import * as xml2js from "xml2js";
+import {XMLParser} from "fast-xml-parser";
 import IntacctException from "../Exceptions/IntacctException";
 import ResponseException from "../Exceptions/ResponseException";
 import Control from "./Response/Control";
 import ErrorMessage from "./Response/ErrorMessage";
+
+const parser = new XMLParser();
 
 export default abstract class AbstractResponse {
 
@@ -36,33 +38,26 @@ export default abstract class AbstractResponse {
     }
 
     constructor(body: string) {
-        const options = {
-            explicitArray: false,
-        };
-        xml2js.parseString(body, options, (err, xmlObject) => {
-            if (err) {
-                throw err;
-            }
-            this._xml = xmlObject;
+        const xmlObject = parser.parse(body);
+        this._xml = xmlObject;
 
-            if (!this.xml.hasOwnProperty("response")) {
-                throw new IntacctException("Response XML is missing root response element");
+        if (!this.xml.hasOwnProperty("response")) {
+            throw new IntacctException("Response XML is missing root response element");
+        }
+
+        if (!this.xml["response"].hasOwnProperty("control")) {
+            throw new IntacctException("Response block is missing control element");
+        }
+        this._control = new Control(this.xml["response"]["control"]);
+
+        if (this.control.status !== "success") {
+            let errors = [];
+            if (this.xml["response"].hasOwnProperty("errormessage")) {
+                const errorMessage = new ErrorMessage(this.xml["response"]["errormessage"]);
+                errors = errorMessage.errors;
             }
 
-            if (!this.xml["response"].hasOwnProperty("control")) {
-                throw new IntacctException("Response block is missing control element");
-            }
-            this._control = new Control(this.xml["response"]["control"]);
-
-            if (this.control.status !== "success") {
-                let errors = [];
-                if (this.xml["response"].hasOwnProperty("errormessage")) {
-                    const errorMessage = new ErrorMessage(this.xml["response"]["errormessage"]);
-                    errors = errorMessage.errors;
-                }
-
-                throw new ResponseException("Response control status failure", errors);
-            }
-        });
+            throw new ResponseException("Response control status failure", errors);
+        }
     }
 }

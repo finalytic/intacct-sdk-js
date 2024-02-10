@@ -18,7 +18,6 @@
  */
 
 import contentType = require("content-type");
-import {FetchError} from "node-fetch";
 import ClientConfig from "../ClientConfig";
 import Endpoint from "../Credentials/Endpoint";
 import SessionCredentials from "../Credentials/SessionCredentials";
@@ -30,6 +29,19 @@ import OfflineResponse from "./OfflineResponse";
 import OnlineResponse from "./OnlineResponse";
 import RequestBlock from "./RequestBlock";
 
+export class FetchError extends Error {
+    public body: string;
+    public options: object;
+    public response: object;
+
+    constructor(body: string, options: object, response: object) {
+        super("Fetch error");
+        this.body = body;
+        this.options = options;
+        this.response = response;
+    }
+
+}
 export default class RequestHandler {
 
     public readonly version: string;

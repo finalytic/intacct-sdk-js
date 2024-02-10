@@ -16,7 +16,6 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-import {Response} from "node-fetch";
 import {Logger} from "winston";
 import MessageFormatter from "../Logging/MessageFormatter";
 import HttpClientHandler from "./HttpClientHandler";

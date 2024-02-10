@@ -18,7 +18,37 @@
  */
 
 import * as dateFormat from "dateformat";
-import {XMLElementOrXMLNode} from "xmlbuilder";
+import {XMLBuilder} from "fast-xml-parser";
+
+type Writer = ReturnType<typeof createWriter>
+const createWriter = (xmlbuilder: XMLBuilder, root: any = {}, current: any = root, parent = root) => {
+   const builder = {
+        element: (name: string, value?: string, attributes?: any) => {
+            current[name] = {
+                '@attributes': attributes||{},
+            };
+            if (value) current[name]['#text'] = value;
+            return createWriter(xmlbuilder, root, current[name], builder);
+        },
+        attribute: (name: string, value: any) => {
+            console.log('ADD ATTRIB', current, name, value)
+            current['@attributes'][name] = value;
+            return builder;
+        },
+        up: () => {
+            return parent;
+        },
+        doc: () => {
+            return {
+                end: (args: any) => {
+                    console.log(root)
+                    return xmlbuilder.build(root)
+                },
+            }
+        }
+   }
+   return builder;
+}
 
 export default class IaXmlWriter {
 
@@ -27,11 +57,15 @@ export default class IaXmlWriter {
     public static readonly intacctDateTimeFormat = "mm/dd/yyyy HH:MM:ss";
 
     public static readonly intacctMultiSelectGlue = "#~#";
+    private _writer: Writer;
 
-    private _writer: XMLElementOrXMLNode;
-
-    constructor(xml: XMLElementOrXMLNode) {
-        this._writer = xml;
+    constructor(private readonly tagname: string, private readonly attributes: object) {
+        this._writer = createWriter(new XMLBuilder({
+            attributesGroupName: '@attributes',
+            format: true,
+            ignoreAttributes: false,
+        }));
+        this._writer = this._writer.element(tagname, undefined, attributes)
     }
 
     public flush(pretty = false): string {

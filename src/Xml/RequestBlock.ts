@@ -17,7 +17,6 @@
  * permissions and limitations under the License.
  */
 
-import * as xmlbuilder from "xmlbuilder";
 import ClientConfig from "../ClientConfig";
 import IFunction from "../Functions/IFunction";
 import RequestConfig from "../RequestConfig";
@@ -51,11 +50,11 @@ export default class RequestBlock {
     }
 
     public writeXml(): string {
-        const xml = new IaXmlWriter(xmlbuilder.create("request", {
+        const xml = new IaXmlWriter("request", {
             "version": "1.0",
             "encoding": this.encoding,
             "standalone": null,
-        }));
+        });
 
         this.controlBlock.writeXml(xml);
         this.operationBlock.writeXml(xml);
