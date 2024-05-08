@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.1",
+  "version": "2.0.1",
   "description": "Sage Intacct SDK for JavaScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -59,7 +59,6 @@
     "@types/mock-fs": "^4.13.0",
     "@types/node": "^14.14.41",
     "@types/uuid": "^8.3.0",
-    "@types/xml2js": "^0.4.8",
     "@types/xmlbuilder": "^0.0.32",
     "chai": "~4.2.0",
     "mocha": "^10.0.0",
@@ -73,7 +72,6 @@
     "typedoc": "^0.19.2",
     "typedoc-plugin-external-module-name": "^4.0.6",
     "typescript": "^4.2.4",
-    "xml2js": "^0.4.23",
     "xmlbuilder": "^12.0.1"
   },
   "dependencies": {
@@ -81,7 +79,6 @@
     "dateformat": "^4.5.1",
     "fast-xml-parser": "^4.3.4",
     "striptags": "^3.1.1",
-    "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "uuid": "^8.3.2"
   }
 }

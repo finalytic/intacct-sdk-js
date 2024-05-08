@@ -16,7 +16,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-import {Logger} from "winston";
+import { Logger } from "../Logger";
 import MessageFormatter from "../Logging/MessageFormatter";
 import HttpClientHandler from "./HttpClientHandler";
 

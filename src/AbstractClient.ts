@@ -26,6 +26,7 @@ import RequestConfig from "./RequestConfig";
 import OfflineResponse from "./Xml/OfflineResponse";
 import OnlineResponse from "./Xml/OnlineResponse";
 import RequestHandler from "./Xml/RequestHandler";
+import { process } from "./process";
 
 export default abstract class AbstractClient {
 

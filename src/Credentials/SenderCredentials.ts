@@ -18,6 +18,7 @@
  */
 
 import ClientConfig from "../ClientConfig";
+import { process } from "../process";
 import Endpoint from "./Endpoint";
 
 export default class SenderCredentials {

@@ -17,8 +17,8 @@
  * permissions and limitations under the License.
  */
 
-import {Logger} from "winston";
 import ICredentials from "./Credentials/ICredentials";
+import { Logger } from "./Logger";
 import MessageFormatter from "./Logging/MessageFormatter";
 
 export default class ClientConfig {

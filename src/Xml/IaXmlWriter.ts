@@ -41,8 +41,7 @@ const createWriter = (xmlbuilder: XMLBuilder, root: any = {}, current: any = roo
         doc: () => {
             return {
                 end: (args: any) => {
-                    console.log(root)
-                    return xmlbuilder.build(root)
+                    return `<?xml version="1.0" encoding="UTF-8" ?>\n${xmlbuilder.build(root)}`
                 },
             }
         }
@@ -62,24 +61,17 @@ export default class IaXmlWriter {
     constructor(private readonly tagname: string, private readonly attributes: object) {
         this._writer = createWriter(new XMLBuilder({
             attributesGroupName: '@attributes',
-            format: true,
+            // format: true,
             ignoreAttributes: false,
         }));
-        this._writer = this._writer.element(tagname, undefined, attributes)
+        this._writer = this._writer.element(tagname, undefined)
     }
 
     public flush(pretty = false): string {
         if (pretty === true) {
-            return this._writer.doc().end({
-                "spacebeforeslash": " ",
-                "pretty": true,
-                "indent": "    ",
-            });
+            return this._writer.doc().end({});
         } else {
-            return this._writer.doc().end({
-                "spacebeforeslash": " ",
-                "pretty": false,
-            });
+            return this._writer.doc().end({});
         }
     }
 

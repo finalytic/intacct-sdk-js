@@ -18,6 +18,7 @@
  */
 
 import ClientConfig from "../ClientConfig";
+import { process } from "../process";
 
 export default class Endpoint {
 
